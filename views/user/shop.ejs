@@ -1,0 +1,94 @@
+<main class="main">
+       
+    <section class="mt-50 mb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="shop-product-fillter">
+                        <div class="totall-product">
+                            <p>  <strong class="text-brand"></strong> Good steps are waiting for you HURRY UP!!!!!</p>
+                        </div>
+                        <div>
+                            
+                        </div>
+
+                    </div>
+                    <div class="row product-grid-3">
+                        <% shop.forEach(function(shop) { %>
+                          
+                         
+                        <div class=" col-md-2">
+                            <div class="product-cart-wrap mb-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        
+                                       
+                                        <a href="/product-details/<%= shop._id%>">
+                                            <img class="default-img" src="/productImages/<%=shop.img[0] %>" alt="">
+                                            <!-- <img class="hover-img" src="frontEnd/imgs/shop/product-2-2.jpg" alt=""> -->
+                                          </a>
+                                       
+                                       
+                                       
+                                       
+                                        <!-- <a href="/product-details/<%= shop._id%>"></a>
+                                            <img class="default-img" src="/uploads/<%=shop.img[3] %>" alt="">
+                                            
+                                        </a> -->
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up"
+                                            data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                            <i class="fi-rs-search"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                       
+                                        <a aria-label="Compare" class="action-btn hover-up"
+                                            href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="hot">Hot</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    
+                                    <h2><a href="shop-product-right.html"><%=shop.name%></a></h2>
+                                   
+                                    <div class="product-price">
+                                        <span>₹<%=shop.price%> </span>
+                                        <!-- <span class="old-price">$245.8</span> -->
+                                    </div class="product-description">
+                                    <span><%=shop.description%></span>
+                                
+                                    <div>
+                                   
+                                  </div>
+                               
+                                    <div class="product-action-1 show">
+                                        <button aria-label="Add To Cart" class="action-btn hover-up" onclick="addtocart('<%= shop._id%>')" ><i class="fi-rs-shopping-bag-add"></i></button>
+                                            
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <% }); %>
+
+                        <div class="pagination-area mt-15 mb-sm-5 mb-lg-0">
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-start">
+                                    <li class="page-item active"><a class="page-link" href="#">01</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">02</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">03</a></li>
+                                    <li class="page-item"><a class="page-link dot" href="#">...</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">16</a></li>
+                                    <li class="page-item"><a class="page-link" href="#"><i
+                                                class="fi-rs-angle-double-small-right"></i></a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </section>
+  
+</main>
