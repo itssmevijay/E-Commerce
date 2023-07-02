@@ -6,7 +6,7 @@
         <div class="col-12 col-md-9 col-lg-7 col-xl-6">
           <div class="card" style="border-radius: 15px;">
             <div class="card-body p-5">
-              <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+              <h3 class="text-uppercase text-center mb-5">Create an account</h3>
               
 
               <form method="post">
@@ -48,6 +48,9 @@
                 <div class="form-group">
                     <button type="button" class="btn btn-fill-out btn-block hover-up" name="login" onclick="validate()">Submit &amp; Register</button>
                 </div>
+
+                <a href="/login"  
+                            style="color: #393f81;">click to login</a></p>
             </form>
 
             </div>
@@ -104,8 +107,9 @@
         if(passwordValue == ""){
             error3.innerText = "Password cant be empty"
             flag = 2
-        }else if(passwordValue < 8){
+        }else if(passwordValue.length < 8){
             error3.innerText = "Password length should be atleast 8"
+            flag = 2
         }
 
         if(cPasswordValue == ""){
@@ -120,8 +124,9 @@
         if(mobileValue == ""){
             error5.innerText = "Mobile No cant be empty"
             flag = 2
-        }else if(mobileValue < 10){
+        }else if(mobileValue.length < 10){
             error5.innerText = "Enter a valid Mobile No"
+            flag = 2
         }
 
         if(flag == 1){

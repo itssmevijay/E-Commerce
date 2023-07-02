@@ -136,8 +136,17 @@
       method: 'POST',
 
       success: (response) => {
-        if (response.status) {
-          location.reload()
+        if (response) {
+          Swal.fire({
+            icon: 'success',
+            title: 'Product added to cart!',
+            showConfirmButton: false,
+            timer: 3000
+          });
+          // Reload page after 3 seconds
+          setTimeout(function() {
+            location.reload();
+          }, 3000);
         }
       }
     })

@@ -3,6 +3,7 @@ var express = require('express');
 const mongoose = require('mongoose')
 const connectDB = require('./config/connection.js')
 
+
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -36,7 +37,7 @@ connectDB();
 
 //session
 app.use(session({
-  saveUninitialized: true,
+  saveUninitialized: false,
   secret: 'sessionSecret',
   resave: false,
   store: new mongodbSession({

@@ -1,6 +1,7 @@
 const bcrypt= require('bcrypt')
 const userModel = require('../models/userSchema'); 
 const productSchema = require('../models/productSchema');
+
 // const user = require('../../models/user');
 
 
@@ -50,15 +51,15 @@ module.exports={
         let response = {};
 
         return new Promise(async (resolve, reject) => {
-            let users = await userModel.user.findOne({email:userData.email})
-            console.log("this is user -----", users)
-            if(users){
+            let user = await userModel.user.findOne({email:userData.email})
+            console.log("this is user -----", user)
+            if(user){
                 
-                bcrypt.compare(userData.password,users.password).then((status)=>{
+                bcrypt.compare(userData.password,user.password).then((status)=>{
                     console.log("this is bcrp dta", status);
                     if(status){
                        console.log("login successfully")
-                        response.users = users
+                        response.user = user
                         response.status = true
                         resolve(response)
                     }else{
@@ -92,21 +93,20 @@ module.exports={
         }
       },
       //to render the shop page
-      getAllProducts:(req,res)=>{
-        return new Promise((resolve,reject)=>{
-            productSchema.Product.find().then((product)=>{
-                console.log('helper1');
-                if(!product){
-                    reject(new Error('No Products Found'))
-                }else{
-                    console.log('helper2');
-                    resolve(product)
-                }
-            }).catch((error)=>{
-                reject(error)
-            })
-        })
-      },
+      getAllProducts: async (page, perPage) => {
+        const skip = (page - 1) * perPage;
+        const product = await productSchema.Product.find()
+            .skip(skip)
+            .limit(perPage);
+
+        const totalProducts = await productSchema.Product.countDocuments();
+        const totalPages = Math.ceil(totalProducts / perPage);
+
+        return {
+            product,
+            totalPages,
+        };
+    },
       getProductDetails:(proId)=>{
         return new Promise((resolve,reject)=>{
             productSchema.Product.findById({_id : proId}).then((product)=>{
@@ -117,6 +117,103 @@ module.exports={
                 }
             })
         })
-      }
+      },
+      getUser: (userId) => {
+        try {
+            return new Promise((resolve, reject) => {
+                userModel.user.findById({ _id: userId }).then((response) => {
+                    resolve(response)
+                })
+            })
+        } catch (error) {
+            console.log(error.message);
+        }
+    },
+    getQueriesOnShop: (query) => {
+        const search = query?.search
+        const sort = query?.sort
+        const filter = query?.filter
+        const page = parseInt(query?.page) || 1
+        const perPage = 6
+
+
+        return new Promise(async (resolve, reject) => {
+
+            let filterObj = {}
+
+            if (filter === 'category=Men') {
+                filterObj = { category: 'Men' }
+            } else if (filter === 'category=Women') {
+                filterObj = { category: 'Women' }
+            } else if (filter === 'category=Kid') {
+                filterObj = { category: 'Kid' }
+            }
+            console.log(filterObj, 'filterObj');
+
+            //Building search query
+
+            let searchQuery = {}
+
+            if (search) {
+                searchQuery = {
+                    $or: [
+                        { name: { $regex: search, $options: 'i' } },
+                        { description: { $regex: search, $options: 'i' } }
+                    ]
+                }
+            }
+
+            //Building object based on query parameter
+
+            let sortObj = {}
+
+            if (sort === '-createdAt') {
+                sortObj = { createdAt: -1 };
+            } else if (sort === 'createdAt') {
+                sortObj = { createdAt: 1 };
+            } else if (sort === '-price') {
+                sortObj = { price: -1 };
+            } else if (sort === 'price') {
+                sortObj = { price: 1 };
+            }
+
+            const skip = (page - 1) * perPage;
+            const product = await productSchema.Product.find({
+                ...searchQuery,
+                ...filterObj,
+            })
+                .sort(sortObj)
+                .skip(skip)
+                .limit(perPage);
+
+
+            const totalProducts = await productSchema.Product.countDocuments({
+                ...searchQuery,
+                ...filterObj,
+            });
+
+               console.log(searchQuery,'searchQuery');
+               console.log(sortObj,'sortObj');
+               console.log(skip,'skip');
+               console.log(product,'product');
+            console.log(totalProducts, 'totalProducts');
+
+            const totalPages = Math.ceil(totalProducts / perPage);
+            if (product.length == 0) {
+                resolve({
+                    noProductFound: true,
+                    Message: "No results found.."
+                })
+            }
+            resolve({
+                product,
+                noProductFound: false,
+                currentPage: page,
+                totalPages,
+            });
+
+        })
+
+    },
 
 }

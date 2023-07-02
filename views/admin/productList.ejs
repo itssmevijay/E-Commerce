@@ -1,3 +1,7 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.25/css/jquery.dataTables.min.css">
+<script src="https://cdn.datatables.net/1.10.25/js/jquery.dataTables.min.js"></script>
+
 <div class="screen-overlay"></div>
 <section class="content-main">
   <div class="content-header">
@@ -10,105 +14,81 @@
   </div>
   <div class="card mb-4">
     <div class="card-body">
-      <table class="table table-bordered">
+      <table id="productTable" class="table table-bordered">
         <thead>
           <tr>
-            <th>
-              No.
-            </th>
-            <th>
-              Image
-            </th>
-            <th>
-              Name
-            </th>
-            <th>
-              Brand
-            </th>
-            <th>
-              Price
-            </th>
-            <th>
-              Quantity
-            </th>
-            <th>
-              Catogory
-            </th>
-            <th>
-              <!-- <button>btn</button> -->
-            </th>
+            <th>No.</th>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Brand</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Category</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          <% product.forEach((item,index)=>{%>
+          <% product.forEach((item, index) => { %>
           <tr>
+            <td><%= index + 1 %></td>
+            <td><img style="border-radius: 0; height: 100px; width: 100px;" src="/productImages/<%= item.img[0] %>"
+                alt="img"></td>
+            <td><%= item.name %></td>
+            <td><%= item.brand %></td>
+            <td>₹<%= item.price %></td>
+            <td><%= item.quantity %></td>
+            <td><%= item.category %></td>
             <td>
-              <%= index+1 %>
-            </td>
-            <td>
-              <img style="border-radius:0;height: 100px;width: 100px;" src="/productImages/<%= item.img[0] %>" alt="img">
-            </td>
-            <td>
-              <%= item.name %>
-            </td>
-            <td>
-              <%= item.brand %>
-
-            </td>
-            <td>
-              ₹<%= item.price%>
-            </td>
-
-            <td>
-              <%= item.quantity %>
-            </td>
-
-            <td>
-              <%= item.category %>
-            </td>
-
-            <td>
-              <a href="/admin/editProduct/<%=item._id%>"> <button class="btn btn-info btn-sm">Edit</button></a>
+              <a href="/admin/editProduct/<%= item._id %>"><button class="btn btn-info btn-sm">Edit</button></a>
               <a href="#" onclick="deleteProduct('<%= item._id %>')"><button class="btn btn-danger btn-sm">Delete</button></a>
             </td>
           </tr>
-          <% })%>
-    </div> <!-- card-body end// -->
-  </div> <!-- card end// -->
-
-</section> <!-- content-main end// -->
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <!-- card-body end// -->
+  </div>
+  <!-- card end// -->
+</section>
+<!-- content-main end// -->
 
 <script>
-  function deleteProduct(proId){
+  $(document).ready(function() {
+    $.noConflict(); // Add this line to avoid conflicts
+    $('#productTable').DataTable();
+  });
+
+  function deleteProduct(proId) {
     swal({
-        title: "Are you sure?",
-        text: "Once deleted, you will not be able to recover this Product!",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-      })
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this Product!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
       .then((willDelete) => {
         if (willDelete) {
           $.ajax({
             url: '/admin/deleteProduct/' + proId,
             method: 'delete',
-            success(response) {
-              console.log(response,'---------');
-              if(response.status){
+            success: function(response) { // Updated success callback syntax
+              console.log(response, '---------');
+              if (response.status) {
                 swal("Product has been deleted!", {
                   icon: "success",
-                }).then(()=>{
-                  location.reload()
-                })
-              }else{
+                }).then(() => {
+                  location.reload();
+                });
+              } else {
                 swal("Oops!", "Something went wrong. Product not deleted!", "error");
               }
             }
-          })
-        }else{
+          });
+        } else {
           swal("Product is safe!");
         }
-      })
+      });
 
   }
 </script>
