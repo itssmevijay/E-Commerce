@@ -29,7 +29,7 @@ router.get('/logout', userController.getLogout)
 router.post('/otp-login', userController.otpLogin)
 
 // GET SHOP PAGE
-router.get('/shop',auth.userAuth, userController.getShopPage)
+router.get('/shop', userController.getShopPage)
 
 //otp Verify
 router.post('/otp-verify', userController.otpVerify)
