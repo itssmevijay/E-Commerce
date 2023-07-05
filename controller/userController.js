@@ -128,7 +128,7 @@ module.exports = {
                  
                     : req.session.selectedProducts = product
                     // console.log(product, user, count, currentPage, totalPages);
-                res.render('user/shop', { layout: 'Layout', product, user, count,totalPages, currentPage, productResult: req.session.noProductFound })
+                res.render('user/shop', {  product, user, count,totalPages, currentPage, productResult: req.session.noProductFound })
             } else {
                 let currentPage = 1
                 const { product, totalPages } = await userHelper.getAllProducts(page, perPage);
@@ -136,7 +136,7 @@ module.exports = {
                     req.session.noProductFound = false
                     // console.log(product,'prooo');
                     // console.log(product, user, count, totalPages, currentPage)
-                res.render('user/shop', { layout: 'Layout', product, user, count, currentPage,totalPages, productResult: req.session.noProduct })
+                res.render('user/shop', {  product, user, count, currentPage,totalPages, productResult: req.session.noProduct })
                 req.session.noProductFound = false
             }
 
