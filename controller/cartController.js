@@ -8,7 +8,7 @@ module.exports = {
     /* GET Cart Page */
     getCart: async (req, res) => {
 
-        console.log('444');
+    
         let userId = req.session.user._id
         let user = req.session.user
         let count = await cartHelpers.getCartCount(user._id)
