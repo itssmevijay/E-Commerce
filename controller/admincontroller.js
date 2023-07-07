@@ -15,7 +15,7 @@ module.exports = {
     //  dashbord
 
     getAdminPage: async (req, res) => {
-        console.log('called');
+      
         admin = req.session.admin;
         let totalProducts,
             days = [];
