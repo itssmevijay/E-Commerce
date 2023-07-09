@@ -94,7 +94,6 @@ router.route('/return-order/').post(orderController.returnOrder)
 router.route('/coupon-verify/:id').get(auth.userAuth, userController.verifyCoupon)
 
 // apply coupon
-
 router.route('/apply-coupon/:id').get(auth.userAuth, userController.applyCoupon)
 
 
