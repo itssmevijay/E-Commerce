@@ -78,11 +78,10 @@ const voucherCode = require('voucher-code-generator')
         try {
             return new Promise((resolve, reject) => {
                 couponModel.Coupon.find({ couponCode: couponCode }).then(async (couponExist) => {
-                    console.log(couponExist[0].validity, 'validity');
 
-                    if (couponExist) {
+                    if (couponExist.length!==0) {
 
-                        if (new Date(couponExist[0].validity) - new Date() > 0) {
+                        if (new Date(couponExist[0]?.validity) - new Date() > 0) {
 
                             let usersCoupon = await userModel.user.findOne(
                                 { _id: userId, "coupons": { $in: [couponCode] } })
