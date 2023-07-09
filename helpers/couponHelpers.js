@@ -78,7 +78,6 @@ const voucherCode = require('voucher-code-generator')
         try {
             return new Promise((resolve, reject) => {
                 couponModel.Coupon.find({ couponCode: couponCode }).then(async (couponExist) => {
-
                     if (couponExist.length!==0) {
 
                         if (new Date(couponExist[0]?.validity) - new Date() > 0) {
