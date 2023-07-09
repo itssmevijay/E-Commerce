@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema({
         
         
     },
+    coupons: {
+        type: Array
+    },
+    
     createdAt: {
         type : Date,
         default : new Date()

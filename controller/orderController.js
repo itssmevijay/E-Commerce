@@ -4,7 +4,7 @@ const { ObjectId } = require('mongodb');
 const cartHelpers = require('../helpers/cartHelpers')
 const userHelper = require('../helpers/userHelper')
 const orderHelpers = require('../helpers/orderHelpers')
-
+const couponHelpers = require('../helpers/couponHelpers')
 module.exports = {
 
     /* GET Address Page */
@@ -62,6 +62,8 @@ module.exports = {
             let userId = req.session.user._id
             let data = req.body;
             let total = data.discountedAmount
+            let couponCode = data.couponCode
+            await couponHelpers.addCouponToUser(couponCode, userId)
             console.log(data, 'lolol');
             try {
                 const response = await orderHelpers.placeOrder(data);

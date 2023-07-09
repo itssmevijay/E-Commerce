@@ -152,6 +152,24 @@ const voucherCode = require('voucher-code-generator')
             console.log(error.message);
         }
     },
+
+    addCouponToUser: (couponCode, userId) => {
+        try {
+            return new Promise((resolve, reject) => {
+                userModel.user.updateOne(
+                    { _id: userId },
+                    {
+                        $push: {
+                            coupons: couponCode
+                        }
+                    }).then((couponAdded) => {
+                        resolve(couponAdded)
+                    })
+            })
+        } catch (error) {
+            console.log(error.message);
+        }
+    }
       
  
 }
