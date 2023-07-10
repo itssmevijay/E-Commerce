@@ -102,7 +102,8 @@ const voucherCode = require('voucher-code-generator')
             console.log(error.message);
         }
         
-    }, // to apply coupon and minus the total amount from it 
+    },
+     // to apply coupon and minus the total amount from it 
     applyCoupon: (couponCode, total) => {
         try {
             return new Promise((resolve, reject) => {
